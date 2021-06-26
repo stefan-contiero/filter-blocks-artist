@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <script>
+      const urlParams = new URLSearchParams(location.search);
+      const hash = urlParams.get('hash');
+      const tokenId = urlParams.get('tokenId');
+
+      // Generates a random hash and token id each time you reload, in the following format
+      //let tokenData = {"hash":"0xd9134c11cd5ed9798ea0811364d63bd850c69c5d13383c9983ade39847e9ea86","tokenId":"99000000"};
+
+      function genTokenData(p) {
+        let data = {
+          hash,
+          tokenId,
+        };
+
+        if (!data.hash) {
+          let hash = "0x";
+          for (var i = 0; i < 64; i++) {
+            hash += Math.floor(Math.random() * 16).toString(16);
+          }
+          data.hash = hash;
+        }
+
+        if (!data.tokenId) {
+          data.tokenId = p * 1000000 + Math.floor(Math.random() * 1000);
+        }
+
+        return data;
+      }
+
+      let tokenData = genTokenData(0);
+    </script>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>My Project by Me - ArtBlocks.io</title>
+
+    <style type="text/css">
+      body {
+            margin: 0;
+            padding: 0;
+          }
+          canvas {
+            padding: 0;
+            margin: auto;
+            display: block;
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            left: 0;
+            right: 0;
+          }
+    </style>
+
+    <script src="https://cdn.jsdelivr.net/npm/p5@1.0.0/lib/p5.js"></script>
+  </head>
+  <body>
+    <div id="sktch" style="display: block;">
+      <script src="generator/script.js"></script>
+    </div>
+  </body>
+</html>

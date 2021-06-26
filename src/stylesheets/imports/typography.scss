@@ -1,0 +1,49 @@
+h1,
+h2 {
+  margin: var(--space-m) 0 var(--space-s);
+  color: var(--color-text-heading);
+}
+
+p {
+  margin: var(--space-s) 0;
+}
+
+h1 {
+  font-size: var(--text-step-3);
+  line-height: calc(#{1.5 * $unit} + (1.4ex - 1ch));
+}
+
+h2 {
+  font-size: var(--text-step-2);
+  line-height: calc(#{1.5 * $unit} + (1.4ex - 1ch));
+}
+
+small {
+  font-size: var(--text-step--2);
+  line-height: calc(#{0.8 * $unit} + (1.4ex - 1ch));
+}
+
+small {
+  display: inline-block;
+}
+
+h1,
+h2,
+b {
+  font-variation-settings: 'wght' 700;
+}
+
+*::selection {
+  background-color: var(--color-interactive);
+  color: var(--color-background);
+}
+
+body {
+  line-height: calc(#{$unit} + (1.4ex - 1ch));
+  font-size: var(--text-step-0);
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen-Sans, Ubuntu, Cantarell,
+    'Helvetica Neue', sans-serif;
+  font-variation-settings: 'wght' 400;
+  letter-spacing: 0.25px;
+  color: var(--color-text-body);
+}

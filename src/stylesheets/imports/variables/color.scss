@@ -1,0 +1,48 @@
+:root {
+  --color-black-alpha: hsla(210, 10%, 2%, 0);
+  --color-black: hsl(210, 10%, 2%);
+  --color-neutral-900: hsl(210, 10%, 5%);
+  --color-neutral-800: hsl(210, 10%, 10%);
+  --color-neutral-700: hsl(210, 10%, 15%);
+  --color-neutral-600: hsl(210, 10%, 30%);
+  --color-neutral-500: hsl(210, 10%, 50%);
+  --color-neutral-400: hsl(210, 10%, 60%);
+  --color-neutral-300: hsl(210, 10%, 80%);
+  --color-neutral-200: hsl(210, 10%, 90%);
+  --color-neutral-100: hsl(210, 10%, 95%);
+  --color-white: hsl(210, 10%, 100%);
+  --color-white-alpha: hsla(210, 10%, 100%, 0);
+
+  --color-magenta: #f08;
+  --color-magenta-alpha: #f080;
+  --color-purple: #40f;
+  --color-purple-alpha: #40f0;
+
+  --color-background: var(--color-white);
+  --color-surface: var(--color-neutral-100);
+  --color-surface-hover: var(--color-neutral-200);
+  --color-image-background-start: var(--color-neutral-100);
+  --color-image-background-end: var(--color-purple);
+  --color-text-heading: var(--color-neutral-900);
+  --color-text-body: var(--color-neutral-700);
+  --color-text-note: var(--color-neutral-500);
+  --color-text-disclaimer: var(--color-neutral-400);
+  --color-interactive: var(--color-purple);
+  --color-interactive-alpha: var(--color-purple-alpha);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --color-background: var(--color-black);
+    --color-surface: var(--color-neutral-900);
+    --color-surface-hover: var(--color-neutral-800);
+    --color-image-background-start: var(--color-magenta);
+    --color-image-background-end: var(--color-neutral-900);
+    --color-text-heading: var(--color-white);
+    --color-text-body: var(--color-neutral-100);
+    --color-text-note: var(--color-neutral-300);
+    --color-text-disclaimer: var(--color-neutral-500);
+    --color-interactive: var(--color-magenta);
+    --color-interactive-alpha: var(--color-magenta-alpha);
+  }
+}

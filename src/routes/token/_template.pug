@@ -1,0 +1,14 @@
+.token-detail
+  ul
+    li.token-detail__info
+      .a.back(on:click="{goBack}") ◀ Back
+      h2 Token \#{token.tokenId}
+      small {token.hash}
+    +each('Object.entries(token.features) as [feature, name]')
+      li
+        b {feature}: 
+        a(href="/?{getURL(feature, name)}") {name}
+  .token-detail__generator
+    .loading
+      Loader
+    iframe(src="/{projectFolder}/generator/index.html?tokenId={token.tokenId}&hash={token.hash}", title="Generator \#{token.tokenId}")

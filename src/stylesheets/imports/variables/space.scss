@@ -1,0 +1,11 @@
+$unit: 1.4rem;
+
+:root {
+  --space: #{$unit};
+
+  --space-xs: #{$unit * 0.25};
+  --space-s: #{$unit * 0.5};
+  --space-m: #{$unit * 2};
+  --space-l: #{$unit * 3};
+  --space-xl: #{$unit * 4};
+}

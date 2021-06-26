@@ -1,0 +1,65 @@
+.gallery
+  .gallery__sidebar
+    p.tokens__count
+      small Displaying
+      br
+      span {filtered.length} of {tokens.length}
+      +if('active.filters.length')
+        span.clear-filters &nbsp;—&nbsp;
+          span(
+            on:click="{clearAllFilters}",
+          ) Clear all filters
+    ul.feature__list
+      +each('Object.entries(features) as [feature, values]')
+        li.feature
+          .feature__title(
+            class="{`${active[feature].length ? 'active' : ''} ${opened.feature === feature ? 'opened' : ''}`}",
+            on:click="{toggleOpenFeature}",
+            data-feature="{feature}"
+          )
+            .feature__title__text
+              span {feature}
+              br
+              +if('active[feature].length')
+                small
+                  span.elements {active[feature].join(', ')}
+                  span &nbsp;—&nbsp;
+                  span.clear(
+                    on:click="{clearFeatureFilter}",
+                    data-feature="{feature}"
+                  ) Clear
+                +else()
+                  small All
+            .feature__title__arrow {opened.feature === feature ? '▲' : '▼'}
+          +if('opened.feature === feature')
+            ul.value__list
+              +each('Object.entries(values) as [name, value]')
+                li.value(
+                  class="{`${value.active ? 'active' : ''} ${opened.totals[name] === 0 ? 'disabled' : ''}`}",
+                  on:click="{toggleFilter}",
+                  data-feature="{feature}", 
+                  data-name="{name}",
+                )
+                  span.value__separator └
+                  span.value__title {name}
+                    span.value__count &nbsp;—&nbsp;
+                      small {opened.totals[name]} items ({((opened.totals[name] / tokens.length) * 100).toFixed(2)}%)
+  ul.gallery__tokens
+    +each('paginate(filtered, currentPage) as token')
+      li
+        a(href="/token/{token.tokenId}")
+          Image(src="/{projectFolder}/image/{token.hash}.{imageExtension}", alt="Token #{token.tokenId}", aspectRatio="{aspectRatio}")
+          small \#{token.tokenId}
+  .gallery__tokens__pagination
+    .pages
+      .a(on:click="{setPage}", data-page="{currentPage - 1}", class="{currentPage === 1 ? 'disabled' : ''}") &lt;
+      +if('pages[0] !== 1')
+        .a(on:click="{setPage}", data-page="1") 1
+        span ...
+      +each('pages as page')
+        .a(class="{page === currentPage ? 'active' : ''}", on:click="{setPage}", data-page="{page}") {page}
+      +if('pages[pages.length - 1] !== lastPage')
+        span ...
+        .a(on:click="{setPage}", data-page="{lastPage}") {lastPage}
+      .a(on:click="{setPage}", data-page="{currentPage + 1}", class="{currentPage === lastPage ? 'disabled' : ''}") &gt;
+
