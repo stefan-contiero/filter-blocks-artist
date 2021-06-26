@@ -32,7 +32,7 @@ The recommended image size is 600x600px.
 
 This folder should contain you script. It should accept a query parameter called `hash` for the embed in the UI. See `index.html` in the example for reference. If you use p5.js, you can just copy the example generator and replace the content of `script.js`.
 
-**Pro tip**: you can later navigate to `/[projectFolder]/generator` without specificing the hash to get new generations.
+**Pro tip**: you can later navigate to `/[projectFolder]/generator/index.html` without specificing the hash to get new generations.
 
 ### config.json
 
