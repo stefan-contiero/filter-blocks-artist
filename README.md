@@ -32,11 +32,11 @@ The recommended image size is 600x600px.
 
 This folder should contain you script. It should accept a query parameter called `hash` for the embed in the UI. See `index.html` in the example for reference. If you use p5.js, you can just copy the example generator and replace the content of `script.js`.
 
-*Pro tip*: you can later navigate `/[projectFolder]/generator` to get new generation without specificing the hash.
+**Pro tip**: you can later navigate to `/[projectFolder]/generator` without specificing the hash to get new generations.
 
 ### config.json
 
-Finally, edit `config.json` to reflect your project settings. *Without doing so, the project won't run.*
+Finally, edit `config.json` to reflect your project settings. **Without doing so, the project won't run.**
 
 ## Running
 
@@ -57,5 +57,6 @@ To run in development mode, just run `npm run dev`
 
 ---
 
-If you have any suggestion or feedback, feel free to ping me @stefan_contiero
+If you have any suggestion or feedback, feel free to ping me [@stefan_contiero](https://twitter.com/stefan_contiero) / Discord
+
 Happy coding!
