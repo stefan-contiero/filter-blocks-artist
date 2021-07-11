@@ -1,7 +1,7 @@
 .gallery
   .gallery__sidebar
-    p.tokens__count
-      small Displaying
+    .tokens__count
+      small.legend Displaying
       br
       span {filtered.length} of {tokens.length}
       +if('active.filters.length')
@@ -9,6 +9,16 @@
           span(
             on:click="{clearAllFilters}",
           ) Clear all filters
+      +if('mode === "stats"')
+        .sorting
+          small.legend Sort by
+          .button-group
+            button(class="{sortBy === 'tokens' ? 'active' : ''}", on:click="{setSort}", data-sort="tokens") Token #
+            button(class="{sortBy === 'rare' ? 'active' : ''}", on:click="{setSort}", data-sort="rare") Most rare
+            button(class="{sortBy === 'common' ? 'active' : ''}", on:click="{setSort}", data-sort="common") Most common
+      label.multiselect
+        input(type="checkbox", bind:checked="{multiselect}")
+        small multiple traits selection
     ul.feature__list
       +each('Object.entries(features) as [feature, values]')
         li.feature
@@ -44,12 +54,24 @@
                   span.value__title {name}
                     span.value__count &nbsp;—&nbsp;
                       small {opened.totals[name]} items ({((opened.totals[name] / tokens.length) * 100).toFixed(2)}%)
-  ul.gallery__tokens
+  ul.gallery__tokens(class="gallery__tokens--{mode}")
     +each('paginate(filtered, currentPage) as token')
       li
         a(href="/token/{token.tokenId}")
-          Image(src="/{projectFolder}/image/{token.hash}.{imageExtension}", alt="Token #{token.tokenId}", aspectRatio="{aspectRatio}")
-          small \#{token.tokenId}
+          +if('mode === "viewer"')
+            Image(src="/{projectFolder}/image/{token.hash}.{imageExtension}", alt="Token #{token.tokenId}", aspectRatio="{aspectRatio}")
+            small \#{token.tokenId}
+            +else()
+              .info
+                div
+                  h4 Token \#{token.tokenId}
+                  small {token.hash}
+                small.tag Rarity Rank \#{token.rank}
+              ul
+                +each('Object.entries(token.features) as [feature, name]')
+                  li
+                    b {feature}: 
+                    span {name}
   .gallery__tokens__pagination
     .pages
       .a(on:click="{setPage}", data-page="{currentPage - 1}", class="{currentPage === 1 ? 'disabled' : ''}") &lt;

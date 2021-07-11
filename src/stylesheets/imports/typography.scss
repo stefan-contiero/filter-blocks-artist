@@ -29,8 +29,9 @@ small {
 
 h1,
 h2,
+h4,
 b {
-  font-variation-settings: 'wght' 700;
+  font-weight: 700;
 }
 
 *::selection {
@@ -43,7 +44,6 @@ body {
   font-size: var(--text-step-0);
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen-Sans, Ubuntu, Cantarell,
     'Helvetica Neue', sans-serif;
-  font-variation-settings: 'wght' 400;
   letter-spacing: 0.25px;
   color: var(--color-text-body);
 }

@@ -2,13 +2,21 @@
 
 A portable version of [Filter Blocks](https://filter-blocks.netlify.app/) for artists developing a script for [Art Blocks](https://artblocks.io/)
 
+## Modes
+
+Filter Blocks for artists can run in two modes:
+
+- `stats`: explore features and rarities for tokens without previews and the need to pre-export thumbnails. Before using this mode, specify `totalTokens` in `config.js` and run `npm run generate`
+- `viewer`: explore features of previously minted tokens from a `token.json`
+
 ## Getting started
 
 To get started, create a folder in `/static` for your project. It should contain:
 
-- `tokens.json` an array of your tokens
-- `/image` a folder containing static thumbnails for your tokens
+- `tokens.json` an array of your tokens (optional if running in `stats` mode)
+- `/image` a folder containing static thumbnails for your tokens (optional if running in `stats` mode)
 - `/generator` your project script
+- `features.js` your feature script
 
 `/static` already contains an example folder based on [ArtBlocks 101 for Creators](https://github.com/ArtBlocks/docs)
 
@@ -23,10 +31,14 @@ This JSON file should contain an array of the token you previously generated. Ea
 }
 ```
 
+**This is not needed when running in `stats` mode.**
+
 ### Image folder
 
 Add the static thumbnails for your tokens in this folder. You can specify the file type in the `config.json`.
 The recommended image size is 600x600px.
+
+**This is not needed when running in `stats` mode.**
 
 ### Generator
 
@@ -34,9 +46,23 @@ This folder should contain you script. It should accept a query parameter called
 
 **Pro tip**: you can later navigate to `/[projectFolder]/generator/index.html` without specificing the hash to get new generations.
 
+### feature.js
+
+Export a function `calculateFeatures(tokenData)` that takes `tokenData` as input, and returns an array of features similar to Art Blocks expects. **The script should not use `window` or DOM functions as it needs to run in node.js**
+
 ### config.json
 
 Finally, edit `config.json` to reflect your project settings. **Without doing so, the project won't run.**
+
+```
+{
+  "totalTokens": 111, // required for stats mode or to truncate token.json
+  "mode": "stats", // stats or viewer
+  "projectFolder": "example", // your project folder name
+  "imageExtension": "png", // thumbnails extension, required for viewer
+  "ratio": 1 // the ratio of your script, required for viewer
+}
+```
 
 ## Running
 

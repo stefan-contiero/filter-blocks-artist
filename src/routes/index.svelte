@@ -3,7 +3,7 @@
     try {
       const getTokens = await fetch(`/api/token`);
       const result = await getTokens.json();
-      const { projectFolder, imageExtension, aspectRatio } = result;
+      const { projectFolder, imageExtension, aspectRatio, mode = 'viewer' } = result;
 
       const tokens = [];
       const features = {};
@@ -11,8 +11,14 @@
       result.tokens.forEach((t) => {
         const token = {
           hash: t.hash,
-          tokenId: t.tokenId
+          tokenId: t.tokenId,
+          probability: t.probability,
+          rank: t.rank,
         };
+
+        if (mode === 'stats') {
+          token.features = t.features;
+        }
 
         tokens.push(token);
 
@@ -38,6 +44,7 @@
           projectFolder,
           imageExtension,
           tokens,
+          mode,
           features
         }
       };
@@ -62,8 +69,11 @@
   export let projectFolder;
   export let imageExtension;
   export let aspectRatio;
+  export let mode;
 
+  let multiselect = true;
   let filtered = tokens;
+  let sortBy = 'tokens';
 
   let active = {
     filters: []
@@ -96,6 +106,7 @@
     }, {});
 
     filtered = !active.filters.length ? tokens : getFiltered(Object.values(results));
+    sortTokens();
   };
 
   const totalResultsForFilter = (feature, name) => {
@@ -190,6 +201,14 @@
     const { feature, name } = target.dataset;
 
     if (!features[feature][name].active) {
+      if (!multiselect) {
+        for (let name in features[feature]) {
+          features[feature][name].active = false;
+        }
+
+        active[feature] = [];
+        active.filters = active.filters.filter((a) => a.feature !== feature);
+      }
       features[feature][name].active = true;
       active[feature].push(name);
       active.filters.push({ feature, name, tokens: features[feature][name].tokens });
@@ -202,6 +221,24 @@
     calculateFilters();
     filterUpdated();
   };
+
+  const setSort = (e) => {
+    sortBy = e.target.dataset.sort;
+
+    const search = new URLSearchParams(location.search);
+    search.set('sort', sortBy);
+
+    window.history.pushState(window.history.state, 'Gallery', `${location.pathname}?${search}`);
+    sortTokens();
+  };
+
+  const sortTokens = () => {
+    filtered = filtered.sort((a, b) => {
+      if (sortBy === 'common') return b.rank - a.rank;
+      if (sortBy === 'rare') return a.rank - b.rank;
+      else return a.tokenId - b.tokenId;
+    });
+  }
 
   const paginate = (items, page = 1) => items.slice(perPage * (page - 1), perPage * page);
 
@@ -250,6 +287,7 @@
       const search = new URLSearchParams(location.search);
       for (const [feature, name] of search) {
         if (feature === 'page') page = name;
+        else if (feature === 'sort') sortBy = name;
         else if (features[feature]) {
           name.split(',').forEach((name) => {
             if (!features[feature][name]) return;
@@ -291,6 +329,52 @@
   .gallery {
     display: grid;
     grid-template-columns: 320px 5fr;
+
+    .multiselect {
+      display: flex;
+      align-items: center;
+      margin-top: var(--space);
+
+      small {
+        margin-left: var(--space-xs);
+      }
+    }
+
+    .sorting {
+      margin: var(--space-s) 0 0;
+
+      small {
+        margin-bottom: var(--space-xs);
+      }
+
+      button {
+        background-color: var(--color-background);
+        color: var(--color-interactive);
+        border: 1px solid var(--color-interactive);
+        cursor: pointer;
+        margin: 0;
+        padding: var(--space-xs) var(--space-s);
+        
+        &:first-child {
+          border-radius: var(--space-xs) 0 0 var(--space-xs);
+        }
+
+        &:not(:first-child),
+        &:not(:last-child) {
+          margin: 0 -1px; 
+        }
+
+        &:last-child {
+          border-radius: 0 var(--space-xs) var(--space-xs) 0;
+        }
+
+        &:hover,
+        &.active {
+          color: var(--color-background);
+          background-color: var(--color-interactive);
+        }
+      }
+    }
 
     &__sidebar {
       display: flex;
@@ -342,6 +426,10 @@
           padding: var(--space-s) var(--space);
           position: relative;
           cursor: pointer;
+
+          &__text {
+            pointer-events: none;
+          }
 
           &.opened,
           &:hover {
@@ -433,6 +521,63 @@
       small {
         display: inline-block;
         margin-top: var(--space-xs);
+      }
+
+      &--stats {
+        grid-template-columns: 100%;
+
+        a {
+          padding: var(--space);
+          border: 1px solid var(--color-surface);
+          border-radius: var(--space-xs);
+          text-decoration: none;
+          transition: 0.15s box-shadow linear;
+          box-shadow: 0 var(--space-xs) 10px -5px var(--color-surface);
+
+          &:hover {
+            color: inherit;
+            box-shadow: 0 var(--space-xs) 15px -5px var(--color-surface-hover);
+
+            h4 {
+              color: var(--color-interactive);
+            }
+          }
+        }
+
+        .info {
+          display: flex;
+          align-items: flex-start;
+          justify-content: space-between;
+          margin-bottom: var(--space);
+
+          h4 {
+            margin: 0;
+
+            span {
+              font-weight: 400;
+              color: var(--color-text-note);
+            }
+          }
+
+          .tag {
+            padding: var(--space-xs);
+            margin: 0;
+            border-radius: var(--space-xs);
+            background-color: var(--color-surface);
+            line-height: 1;
+          }
+        }
+
+        ul {
+          list-style: none;
+          padding: 0;
+          margin: 0;
+          display: grid;
+          grid-template-columns: repeat(4, 1fr);
+          grid-gap: var(--space-s);
+          font-size: 0.8em;
+          line-height: 1;
+        }
       }
 
       &__pagination {
