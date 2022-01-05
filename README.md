@@ -27,7 +27,7 @@ This JSON file should contain an array of the token you previously generated. Ea
 ```
 {
   "hash": "0xde013c21142acab081e0c9c254ba75335e89eeb235fb7a9157a6ceed2ddffeab",
-  "features": ["R:107", "G:34", "B:168", "Step:100", "Square"]
+  "features": { "R": 107, "G": 34, "B": 168, "Step": 100, "Square": true }
 }
 ```
 
@@ -48,7 +48,7 @@ This folder should contain you script. It should accept a query parameter called
 
 ### feature.js
 
-Export a function `calculateFeatures(tokenData)` that takes `tokenData` as input, and returns an array of features similar to Art Blocks expects. **The script should not use `window` or DOM functions as it needs to run in node.js**
+Export a function `calculateFeatures(tokenData)` that takes `tokenData` as input, and returns an object of features similar to what Art Blocks expects. **The script should not use `window` or DOM functions as it needs to run in node.js**
 
 ### config.json
 

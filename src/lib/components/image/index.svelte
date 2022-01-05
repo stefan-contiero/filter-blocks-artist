@@ -1,7 +1,7 @@
 <script>
   export let src;
   export let alt;
-  export let aspectRatio;
+  export let ratio;
 
   import { onMount } from 'svelte';
   import IntersectionObserver from './intersection-observer.svelte';
@@ -16,7 +16,7 @@
   });
 </script>
 
-<IntersectionObserver once={true} let:intersecting {aspectRatio}>
+<IntersectionObserver once={true} let:intersecting {ratio}>
   {#if intersecting || nativeLoading}
     <Image {src} {alt} />
   {/if}

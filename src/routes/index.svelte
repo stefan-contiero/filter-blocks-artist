@@ -3,7 +3,7 @@
     try {
       const getTokens = await fetch(`/api/token`);
       const result = await getTokens.json();
-      const { projectFolder, imageExtension, aspectRatio, mode = 'viewer' } = result;
+      const { projectFolder, imageExtension, ratio, mode = 'viewer' } = result;
 
       const tokens = [];
       const features = {};
@@ -40,7 +40,7 @@
 
       return {
         props: {
-          aspectRatio,
+          ratio,
           projectFolder,
           imageExtension,
           tokens,
@@ -68,7 +68,7 @@
   export let features;
   export let projectFolder;
   export let imageExtension;
-  export let aspectRatio;
+  export let ratio;
   export let mode;
 
   let multiselect = true;
@@ -518,6 +518,11 @@
         display: block;
       }
 
+      .rarity {
+        color: var(--color-text-disclaimer);
+        float: right;
+      }
+
       small {
         display: inline-block;
         margin-top: var(--space-xs);
@@ -559,13 +564,14 @@
             }
           }
 
-          .tag {
-            padding: var(--space-xs);
-            margin: 0;
-            border-radius: var(--space-xs);
-            background-color: var(--color-surface);
-            line-height: 1;
-          }
+        }
+
+        .tag {
+          padding: var(--space-xs);
+          margin: 0;
+          border-radius: var(--space-xs);
+          background-color: var(--color-surface);
+          line-height: 1;
         }
 
         ul {

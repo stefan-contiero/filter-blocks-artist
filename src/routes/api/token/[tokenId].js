@@ -12,12 +12,7 @@ for (var i = 0; i < data.length; i += 1) {
     hash: token.hash,
     probability: token.probability,
     rank: token.rank,
-    features: token.features.reduce((result, feature) => {
-      const kv = feature.split(':');
-      result[kv[0]] = (kv[1] || kv[0]).trim();
-
-      return result;
-    }, {})
+    features: token.features
   });
 }
 

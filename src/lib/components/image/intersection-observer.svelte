@@ -1,6 +1,6 @@
 <script>
   import { onMount } from 'svelte';
-  export let aspectRatio = 1;
+  export let ratio = 1;
   export let once = false;
   export let top = 0;
   export let bottom = 200;
@@ -29,7 +29,7 @@
   });
 </script>
 
-<div class="img__container" style="padding-bottom: {(1 / aspectRatio) * 100}%" bind:this={container}>
+<div class="img__container" style="padding-bottom: {(1 / ratio) * 100}%" bind:this={container}>
   <slot {intersecting} />
 </div>
 

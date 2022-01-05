@@ -9,7 +9,7 @@
           span(
             on:click="{clearAllFilters}",
           ) Clear all filters
-      +if('mode === "stats"')
+      +if('mode === "stats" || tokens[0].rank')
         .sorting
           small.legend Sort by
           .button-group
@@ -59,8 +59,10 @@
       li
         a(href="/token/{token.tokenId}")
           +if('mode === "viewer"')
-            Image(src="/{projectFolder}/image/{token.hash}.{imageExtension}", alt="Token #{token.tokenId}", aspectRatio="{aspectRatio}")
+            Image(src="/{projectFolder}/image/{token.hash}.{imageExtension}", alt="Token #{token.tokenId}", ratio="{ratio}")
             small \#{token.tokenId}
+            +if('token.rank')
+              small.rarity Rarity \#{token.rank}
             +else()
               .info
                 div

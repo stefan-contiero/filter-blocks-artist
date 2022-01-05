@@ -27,14 +27,15 @@ const storeData = (path, data) => {
   let allFeatures = {};
   let { calculateFeatures } = await import(`./static/${config.projectFolder}/features.js`);
 
-  for (let i = 0; i <= config.totalTokens; i++) {
+  for (let i = 0; i < config.totalTokens; i++) {
     let tokenData = generateToken(i);
     let features = calculateFeatures(tokenData);
 
-    features.forEach(f => {
+    for (const [key, value] of Object.entries(features)) {
+      let f = `${key}:${value}`;
       if (!allFeatures[f]) allFeatures[f] = 0;
       allFeatures[f] += 1;
-    });
+    };
 
     tokens.push({
       ...tokenData,
@@ -48,9 +49,11 @@ const storeData = (path, data) => {
 
   for (let i = 0; i < tokens.length; i++) {
     let probability = 1;
-    tokens[i].features.forEach(f => {
-      probability *= allFeatures[f];
-    });
+    for (const [key, value] of Object.entries(tokens[i].features)) {
+      if (key !== 'Foreground' && key !== 'Background') {
+        probability *= allFeatures[`${key}:${value}`];
+      }
+    };
 
     tokens[i].probability = probability;
   }

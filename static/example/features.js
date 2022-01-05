@@ -20,7 +20,13 @@ export const calculateFeatures = (tokenData) => {
     return a + (b - a) * rnd_dec()
   }
 
-  let features = ["R:"+R, "G:"+G, "B:"+B, "Step:100", "Square"]
+  let features = {
+    R, 
+    G,
+    B,
+    Step: 100,
+    Square: true
+  };
   return features;
 };
 
